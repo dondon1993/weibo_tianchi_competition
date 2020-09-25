@@ -22,4 +22,10 @@ The global precision:
 where sgn(x) is a modified signal function defined as sgn(x)=1 if x > 0 and sgn(x) = 0 if x<=0.
 count<sub>i</sub> is the sum amount of forwarding, commenting and liking of ith weibo. Count<sub>i</sub> take the value of 100 if count<sub>i</sub> is larger than 100.
 
-# Data preprocessing
+# Feature engineering
+According to the exploratory data analysis (EDA), over 98% of users in text data have records in training data. And it is obvious the forwards, comments and likes received for each weibo are highly dependent on the user sending them. For example, if the user is a celebrity, he or she will have a larger follower base thus it would be easier for him or her to have a larger number of forward, comments and likes. Therefore, behavior related features for each user can be very useful for prediction. These features include 5 fold target encoded features and lag features where 5 fold setting is used to avoid overfitting.
+
+# Modelling
+# Summary
+What I did not do:
+* Data preprocessing. Clean up url links in the text.
