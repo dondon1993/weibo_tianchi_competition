@@ -20,4 +20,6 @@ The global precision:
 <a href="https://www.codecogs.com/eqnedit.php?latex=precision&space;=&space;\frac{\sum_{1}^{n}(count_i&space;&plus;&space;1)\times&space;sgn(precision_i&space;-&space;0.8)}{\sum_{1}^{n}(count_i&space;&plus;&space;1)}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?precision&space;=&space;\frac{\sum_{1}^{n}(count_i&space;&plus;&space;1)\times&space;sgn(precision_i&space;-&space;0.8)}{\sum_{1}^{n}(count_i&space;&plus;&space;1)}" title="precision = \frac{\sum_{1}^{n}(count_i + 1)\times sgn(precision_i - 0.8)}{\sum_{1}^{n}(count_i + 1)}" /></a>
 
 where sgn(x) is a modified signal function defined as sgn(x)=1 if x > 0 and sgn(x) = 0 if x<=0.
-count<sub>i</sub> is the sum amount of forwarding, commenting and liking of ith weibo. count<sub>i</sub> take the value of 100 if count<sub>i</sub> is larger than 100.
+count<sub>i</sub> is the sum amount of forwarding, commenting and liking of ith weibo. Count<sub>i</sub> take the value of 100 if count<sub>i</sub> is larger than 100.
+
+# Data preprocessing
