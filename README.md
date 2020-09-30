@@ -30,7 +30,7 @@ Another obervation after checking the data is that there are a lot of duplicated
 Feature extraction for weibo contents are performed by Bert model.
 
 # Modelling
-I chose Bert model with no particular reasons. Mainly because I am more familiar with that and it already has a pretrained Bert for Chinese ready to use. In fact, most language models nowadays have a multilingual version. But from the documentation I learned Chinese one is better for Chinese text while multiligual one needs some pretraining. Therefore I decided to start with Chinese Bert. Surprisingly implementing a Chinese Bert model is as straightforward as an English Bert model. Before I go fancy modelling archtectures, we have to make sure base models are good enough. The performance of base models highly depends on feature engineering. Therefore besides features I mentioned in feature engineering section, I spent most of my time trying different techniques to train a better Bert language model for this task:
+I chose Bert model with no particular reasons. Mainly because I am more familiar with it and it already has a pretrained Bert model for Chinese ready to use. In fact, most language models nowadays have a multilingual version. But from the documentation I learned Chinese one is better for Chinese text while multiligual one needs some pretraining. Therefore I decided to start with Chinese Bert. Surprisingly implementing a Chinese Bert model is as straightforward as an English Bert model. Before I go fancy modelling archtectures, we have to make sure base models are good enough. The performance of base models highly depends on feature engineering. Therefore besides features I mentioned in feature engineering section, I spent most of my time trying different techniques to train a better Bert language model for this task:
 * Default Bert model + heads for forward, comment and like + weighted mae loss functions
 * Pretrained Bert model + heads for forward, comment and like + weighted mae loss functions
 * Default Bert model + user behavior features & weibo duplicity features + heads for forward, comment and like + weighted mae loss functions
@@ -40,9 +40,22 @@ I trained 4 Bert LMs with 4 different architectures mentioned above.
 I kept all trained Bert LMs since even though some of them might not be good themselves, they could be beneficial for ensembling. According to my experiments, Bert LM w/ regression head architecture is not as good as using Bert LM to extract embeddings for texts and use them for downstream modelling. Therefore my two types of base models are:
 * Lgbm mdoels with features including predicitons from Bert LM w/ regression head + user behavior features & weibo duplicity features
 * Fully connected NN models with features including Bert embedding vectors + user behavior features & weibo duplicity features
-I have 8 lgbm models and 4 NN models. 2 lgbm models and 1 NN model for each Bert LMs. Each lgbm model is trained with a different random seed to split train and validation data and different weights to samples (one equally important and the other one has a less weight for outliers). All NN models are trained with equally weighted samples.
+I have 8 lgbm models and 4 NN models. 2 lgbm models and 1 NN model for each Bert LMs. Each lgbm model is trained with a different random seed and different weights to samples (one equally important and the other one has a less weight for outliers). All NN models are trained with equal weights.
 
+Using oof results from 12 base models as features in addition to user behavior & weibo duplicity features, my second level models include a lgbm model and a NN model. And finally a simple blending of the second level lgbm and NN models with equal weights produce the final result. 
 
 # Summary
-What I did not do:
-* Clean up url links in the text. There are three reasons why I should have done this. First, these url links usually do not carry much information so it is better to get rid of them. Second, they are very long, and in some sense they might affect the algorithm to calculate the similarity between two weibos. Third, when I generated corpus for LM pretraining, I got rid of these url links. But when I train Bert models with pretrained LM, I kept them. This conflict should be addressed. 
+What works:
+* Feature engineering based on user behavior
+* Pretrain LM with training and testing texts
+* Different architectures to train LM
+* Model ensembling (stacking and blending)
+
+What doesn't work:
+* Weighted samples
+
+What more I could do:
+* Data cleaning. To be more specific, clean up url links in the text. There are three reasons. First, these url links usually do not carry much information so it is better to get rid of them. Second, they are very long, and in some sense they might affect the algorithm to calculate the similarity between two weibos. Third, when I generated corpus for LM pretraining, I got rid of these url links. But when I train Bert models with pretrained LM, I kept them. This conflict should be addressed.
+* Train LM with only latest weibo which exists for a long time and reflect its real value.
+* Better hyperparameter settings to train LMs.
+* More types of models (LMs and other task specific models)
