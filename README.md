@@ -9,7 +9,7 @@ The difference of each behavior to a certain weibo is calculated by:
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=deviation_l&space;=&space;\frac{count_{lp}&space;-&space;count_{lr}}{count_{lr}&space;&plus;&space;3}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?deviation_l&space;=&space;\frac{count_{lp}&space;-&space;count_{lr}}{count_{lr}&space;&plus;&space;3}" title="deviation_l = \frac{count_{lp} - count_{lr}}{count_{lr} + 3}" /></a>
 
-where count<sub>*p</sub> is the prediction value and count<sub>*r</sub> is the target value with * being f(forward), c(comment) or l(like).
+where count<sub>*p</sub> is the prediction value and count<sub>*r</sub> is the target value with * being f (forward), c (comment) or l (like).
 
 The preciison for each weibo is:
 
