@@ -43,7 +43,8 @@ I kept all trained Bert LMs. Even though some of them might not be good themselv
 * Fully connected NN models with features including Bert embedding vectors + user behavior features & weibo duplicity features
 I have 8 lgbm models and 4 NN models. 2 lgbm models and 1 NN model for each Bert LMs. Each lgbm model is trained with a different random seed and different weights to samples (one equally important and the other one has a less weight for outliers). All NN models are trained with equal weights.
 
-Using oof results from 12 base models as features in addition to user behavior & weibo duplicity features, my second level models are a lgbm model and a NN model. And final result comes from a simple blending of the second level lgbm and NN models with equal weights. 
+Using oof results from 12 base models as features in addition to user behavior & weibo duplicity features, my second level models are a lgbm model and a NN model. And final result comes from a simple blending of the second level lgbm and NN models with equal weights. The whole model architecture is shown in the figure below: 
+![Figure 1](/image/model_arch.png)
 
 # Summary
 What works:
