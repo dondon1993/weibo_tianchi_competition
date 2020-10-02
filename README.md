@@ -37,7 +37,7 @@ To understand the quality of a weibo, we need to find a way to extract features 
 * Pretrained Bert model + user behavior features & weibo duplicity features + heads for forward, comment and like + weighted mae loss functions
 
 4 Bert LMs are trained based on 4 different architectures mentioned above. Nvidia apex is used to optimize the model size and training process. Bucket sequencing is used to speed up the training and inference. Weighted mae loss function is implemented based on equation for global precision. Mae is chosen since it is less sensitive to outliers. I did not try other methods but I think the loss function sharing a similar form to the final metric is important because this multi-task scheme helps to train Bert LMs to identify two types of weibos. One is valuable advertisement. It carries important and unique information which is beneficial to the public and worth spreading. This kind of weibo usually gets far more forwards than comments. While the other one is personal emotion vent. Since it is more personal, it usually gets more comments than forwards. The code for weighted mae loss function is:
-'''python
+```python
 loss_forward =  nn.L1Loss(reduction='none')(y_pred[0].squeeze(), target[:,0].to(device))
 loss_forward = loss_forward/(cnt_forward+5)
 loss_comment = nn.L1Loss(reduction='none')(y_pred[1].squeeze(), target[:,1].to(device))
@@ -47,7 +47,7 @@ loss_like = loss_like/(cnt_like+3)
 
 loss = ((0.5*loss_forward + 0.25*loss_comment + 0.25*loss_like)*(torch.clamp(cnt_forward+cnt_comment+cnt_like, min=0, max=100)+1)).sum()/\
                 ((torch.clamp(cnt_forward+cnt_comment+cnt_like, min=0, max=100)+1).sum())
-'''
+```
 
 I kept all trained Bert LMs. Even though some of them might not be good themselves, they could be beneficial for ensembling. According to my experiments, Bert LM w/ regression head architecture is not as good as using Bert LM to extract embeddings for texts and use them for downstream modelling. Therefore my two types of base models are:
 * Lgbm mdoels with features including predicitons from Bert LM w/ regression head + user behavior features & weibo duplicity features
