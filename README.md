@@ -52,6 +52,7 @@ loss = ((0.5*loss_forward + 0.25*loss_comment + 0.25*loss_like)*(torch.clamp(cnt
 I kept all trained Bert LMs. Even though some of them might not be good themselves, they could be beneficial for ensembling. According to my experiments, Bert LM w/ regression head architecture is not as good as using Bert LM to extract embeddings for texts and use them for downstream modelling. Therefore my two types of base models are:
 * Lgbm mdoels with features including predicitons from Bert LM w/ regression head + user behavior features & weibo duplicity features
 * Fully connected NN models with features including Bert embedding vectors + user behavior features & weibo duplicity features
+
 I have 8 lgbm models and 4 NN models. 2 lgbm models and 1 NN model for each Bert LMs. Each lgbm model is trained with a different random seed and different weights to samples (one equally important and the other one has a less weight for outliers). All NN models are trained with equal weights.
 
 Using oof results from 12 base models as features in addition to user behavior & weibo duplicity features, my second level models are a lgbm model and a NN model. And final result comes from a simple blending of the second level lgbm and NN models with equal weights. The whole model architecture is shown in the figure below: 
